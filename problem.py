@@ -36,7 +36,12 @@ def shl(i, x1, x2):
 
 # Your Synthesizer: construct a Z3 formula using input/output pairs.
 def formula(pairs):
-    return True
+    constraint = True
+    for (x, y), ans in io_pairs:
+        this_constraint = mul(0, x, y) + mul(1, y, x) + shl(2, x, y) + shl(3, y, x) == ans
+        constraint = And(constraint, this_constraint)
+    return constraint
+
 
 if __name__ == '__main__':
     s = formula(io_pairs)
